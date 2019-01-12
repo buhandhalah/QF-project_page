@@ -1,0 +1,34 @@
+------------Simple SQL Script----------------
+public static BusObjectIterator<com.am_database.Orders> getCustomerByAddress(String ShipAddress)
+    {
+        String queryText = "";
+    	QueryObject query = null;
+       queryText = "select DISTINCT CustomerID FROM Orders where ShipAddress= :ShipAddress";
+       query = new QueryObject(queryText);
+        query.addParameter("ShipAddress", "Orders.ShipAddress", QueryObject.PARAM_STRING,ShipAddress);
+        query.setResultClass(Orders.class);
+        return query.getObjects();
+    }
+
+
+------------Calculation SQL Script----------------	
+public static BusObjectIterator<com.am_database.Products> getTT(int SupplierID)
+    {
+        String queryText = "select sum(UnitPrice) from Products where SupplierID = :SupplierID";
+        QueryObject query = new QueryObject(queryText);
+        query.addParameter("SupplierID", "Products.SupplierID", QueryObject.PARAM_INT, new Integer(SupplierID));
+        query.setResultClass(Products.class);
+        return query.getObjects();
+    }
+
+------------Complex Query with "+" format SQL Script----------------	
+public static BusObjectIterator<com.am_database.Orders> getOrderBySearch(String CustomerID)
+    {
+        String queryText = "";
+    	QueryObject query = null;
+       queryText = "select *  FROM Orders where CustomerID LIKE"+"'"+CustomerID+"%'";
+       query = new QueryObject(queryText);
+        
+        query.setResultClass(Orders.class);
+        return query.getObjects();
+    }

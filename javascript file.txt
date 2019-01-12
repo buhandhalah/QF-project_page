@@ -1,0 +1,125 @@
+var CSLCOMSupervisorCS=""; //9 -Community-CS
+var CSLCOMSupervisorRS=""; //8 -Recreation-RS
+var type="";
+function Form_InitDone(eventObject)
+{
+txtActId.addOption({"value" : "", "description": "Please Choose One"},false,0,false);
+txtYearId.addOption({"value" : "", "description": "Please Choose One"},false,0,false);
+txtPlanMonth.addOption({"value" : "", "description": "Please Choose One"},false,0,false);
+
+txtActId.setSelectValue("");
+txtYearId.setSelectValue("");
+txtPlanMonth.setSelectValue("");
+
+checkRoles();
+
+  CSLCES_EVENT_DETAILTable.hideColumn(5);
+  hid_cod.hide();
+  hid_typ.hide();
+  txtRole.hide();
+  txtnm.hide();
+}
+
+function checkRoles(){
+cordys.setNodeText(GetGblgsfRoleByNameModel.getMethodRequest(), ".//*[local-name()='UserName']", getCurrentUserCN());
+    GetGblgsfRoleByNameModel.reset();
+    var roles = cordys.selectXMLNodes(GetGblgsfRoleByNameModel.getData(), ".//*[local-name()='Target']");
+ 
+    if (roles.length > 0) {
+        for (var i = 0; i < roles.length; i++) {
+            if("CSLCOM-Supervisor CS" == cordys.getNodeText(roles[i], ".//*[local-name()='Name']", ""))
+                CSLCOMSupervisorCS="CSLCOMSupervisorCS";
+            if("CSLCOM-Supervisor RS" == cordys.getNodeText(roles[i], ".//*[local-name()='Name']", ""))
+                CSLCOMSupervisorRS="CSLCOMSupervisorRS";
+               // console.log(cordys.getNodeText(roles[i], ".//*[local-name()='Name']", ""));
+        }
+        if(CSLCOMSupervisorCS && CSLCOMSupervisorRS){
+            txtRole.setValue("RSCS")
+        }else if(CSLCOMSupervisorCS){
+            txtRole.setValue("CS")
+        }else if(CSLCOMSupervisorRS){
+            txtRole.setValue("RS")
+        }
+    }
+}
+
+function Btn_search_Click(eventObject)
+{
+    
+    var  request= GetEventOrganizeObjectsModel.getMethodRequest();
+    
+    cordys.setNodeText(request, ".//*[local-name()='TITLE_EN']",txtName.getValue(),null);
+    cordys.setNodeText(request, ".//*[local-name()='ACTION_PLAN_ID']",txtActId.getValue(),null);
+    cordys.setNodeText(request, ".//*[local-name()='PLANNED_MONTH']",txtPlanMonth.getValue(),null);
+    cordys.setNodeText(request, ".//*[local-name()='EVENT_REF_NO']",txtRefId.getValue(),null);
+    cordys.setNodeText(request, ".//*[local-name()='PACKAGE_ID']",txtPkgId.getValue(),null);
+    cordys.setNodeText(request, ".//*[local-name()='YEAR_ID']",txtYearId.getValue(),null);
+    cordys.setNodeText(request, ".//*[local-name()='SELECTION']",txtType.getValue(),null);
+    cordys.setNodeText(request, ".//*[local-name()='ROLE']",txtRole.getValue(),null);
+    
+    GetEventOrganizeObjectsModel.setMethodRequest(request);
+    GetEventOrganizeObjectsModel.reset();  
+    
+     
+}
+function Btn_clear_Click(eventObject)
+{
+    txtName.setValue("");
+    txtActId.setSelectValue("");
+    txtPlanMonth.setSelectValue("");
+    txtRefId.setValue("");
+    txtPkgId.setValue("");
+    txtYearId.setSelectValue("");
+    txtType.setSelectValue("2");  
+}
+
+function getCurrentUserCN() {
+    var userDN = system.getUser().authUserDN;
+    var splitStr = userDN.split(",");
+    var aa=splitStr[0].substr(splitStr[0].indexOf("=") + 1);
+    //alert(aa);
+    return aa;
+}
+
+
+
+
+function Btn_organize_Click(eventObject)
+{
+var checkedRows = CSLCES_EVENT_DETAILTable.getCheckedRows();
+var request= ProcessModel.getMethodRequest();
+if(checkedRows.length>1){
+application.notify("Please select one row at a time");
+}
+else{
+    
+    for (var i = 0; i < checkedRows.length; i++)
+   {
+    hid_typ.setValue(search_type[checkedRows[i].index].getValue());
+    hid_cod.setValue(event_code[checkedRows[i].index].getValue());
+    txtnm.setValue(title_en[checkedRows[i].index].getValue());
+    }
+    
+    //console.log("coloumn name -"+hid_typ.getValue());
+    
+
+if(hid_typ.getValue()=="Event"){
+type="event";
+cordys.setNodeText(request, ".//*[local-name()='CaseType']",type,null);
+  cordys.setNodeText(request, ".//*[local-name()='CaseID']",hid_cod.getValue(),null);
+  
+  application.notify("Request have been made for Organizing "+txtnm.getValue());
+}
+else if(hid_typ.getValue()=="Program"){
+type="program";
+cordys.setNodeText(request, ".//*[local-name()='CaseType']",type,null);
+  cordys.setNodeText(request, ".//*[local-name()='CaseID']",hid_cod.getValue(),null);
+  
+  application.notify("Request have been made for Organizing "+txtnm.getValue());
+}
+
+  
+  
+  ProcessModel.reset(); 
+  } 
+}

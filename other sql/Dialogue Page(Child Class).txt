@@ -1,0 +1,29 @@
+------------show dialogue (in BPM & Application)----------------
+if (application.event.data){
+
+if(tryy.getValue() != ""){
+alert ("***BPM DATA***");
+cordys.setNodeText(CustomersModel.getMethodRequest(),".//*[local-name()='CustomerID']",tryy.getValue());
+CustomersModel.reset();
+}
+if(tryy.getValue() == ""){
+alert ("***APPLICATION DATA***");
+cordys.setNodeText(CustomersModel.getMethodRequest(),".//*[local-name()='CustomerID']",application.event.data.name,null);
+CustomersModel.reset();
+}
+
+------------show dialogue (Closing Method -Saving variables to return)----------------
+dataObj.test=input23.getValue();
+dataObj.user=input1.getValue();
+Workflow.completeTask(); //BPM workflow
+application.container.close();
+
+
+------------show dialogue return statement----------------
+function dialogReturnValue(){
+return dataObj;
+}
+
+------------show dialogue PARAMETER VALUE INITIALISE outside initformdone----------------
+var data = new Object();
+var dataObj = new Object();

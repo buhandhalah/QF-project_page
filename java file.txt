@@ -1,0 +1,172 @@
+	public static BusObjectIterator<qa.org.qf.eim.cslces.CSLCES_EVENT_DETAIL> GetEventOrganizeObjects(String TITLE_EN,
+	        String ACTION_PLAN_ID, String PLANNED_MONTH, String EVENT_REF_NO, String PACKAGE_ID, String YEAR_ID,
+	        String SELECTION, String ROLE)
+	{
+
+		String queryText = "";
+
+		if (ROLE.equals("RS"))
+		{
+			if (SELECTION.equals("0"))
+			{
+				queryText = queryText + "SELECT S.STATUS_NAME," + "E.EVENT_DETAIL_ID," + "E.ACTION_PLAN_ID,"
+				        + "'Event' AS ACTIVITY," + "E.TITLE_EN," + "E.YEAR_ID," + "E.PLANNED_MONTH," + "E.CREATED_BY,"
+				        + "E.CREATED_ON" + " FROM CSLCES_EVENT_DETAIL E" + " JOIN GBLSHS_STATUSES S"
+				        + " ON S.STATUS_ID = E.STATUS_ID " + "WHERE E.TITLE_EN LIKE'%" + TITLE_EN + "%'" + " AND "
+				        + "E.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND " + "E.PLANNED_MONTH LIKE'%"
+				        + PLANNED_MONTH + "%'" + " AND " + "E.EVENT_REF_NO LIKE'%" + EVENT_REF_NO + "%'" + " AND "
+				        + "E.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND " + "E.YEAR_ID LIKE'%" + YEAR_ID + "%'"
+				        + " AND " + "E.EVENT_OWNER_ID = 8" + " AND " + "S.STATUS_NAME = 'Approved' "
+				        + "ORDER BY CREATED_ON ASC,CREATED_BY DESC";
+			}
+
+			else if (SELECTION.equals("1"))
+			{
+				queryText = queryText + "SELECT S.STATUS_NAME," + "P.PROGRAM_ID AS EVENT_DETAIL_ID,"
+				        + "P.ACTION_PLAN_ID," + "'Program' IS_ACTIVITY," + " P.PROGRAM_NAME AS NAME," + " P.YEAR_ID,"
+				        + "P.PLANNED_MONTH," + " P.CREATED_BY," + " P.CREATED_ON " + " FROM CSLCES_PROGRAM P "
+				        + "JOIN GBLSHS_STATUSES S " + "ON S.STATUS_ID = P.STATUS_ID " + "WHERE P.PROGRAM_NAME LIKE'%"
+				        + TITLE_EN + "%'" + " AND " + "P.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND "
+				        + "P.PLANNED_MONTH LIKE'%" + PLANNED_MONTH + "%'" + " AND " + "P.PROGRAM_REF_NO LIKE'%"
+				        + EVENT_REF_NO + "%'" + " AND " + "P.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND "
+				        + "P.YEAR_ID LIKE'%" + YEAR_ID + "%'" + " AND " + "P.PROGRAM_OWNER_ID = 8" + " AND "
+				        + "S.STATUS_NAME = 'Approved' " + "ORDER BY CREATED_ON ASC,CREATED_BY DESC";
+
+			} else if (SELECTION.equals("2"))
+			{
+
+				queryText = queryText + "SELECT S.STATUS_NAME," + "P.PROGRAM_ID AS EVENT_DETAIL_ID,"
+				        + "P.ACTION_PLAN_ID," + "'Program' IS_ACTIVITY," + " P.PROGRAM_NAME AS NAME," + " P.YEAR_ID,"
+				        + "P.PLANNED_MONTH," + " P.CREATED_BY," + " P.CREATED_ON " + " FROM CSLCES_PROGRAM P "
+				        + "JOIN GBLSHS_STATUSES S " + "ON S.STATUS_ID = P.STATUS_ID " + "WHERE P.PROGRAM_NAME LIKE'%"
+				        + TITLE_EN + "%'" + " AND " + "P.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND "
+				        + "P.PLANNED_MONTH LIKE'%" + PLANNED_MONTH + "%'" + " AND " + "P.PROGRAM_REF_NO LIKE'%"
+				        + EVENT_REF_NO + "%'" + " AND " + "P.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND "
+				        + "P.YEAR_ID LIKE'%" + YEAR_ID + "%'" + " AND " + "P.PROGRAM_OWNER_ID = 8" + " AND "
+				        + "S.STATUS_NAME = 'Approved' " + "UNION ALL " + "SELECT S.STATUS_NAME," + "E.EVENT_DETAIL_ID,"
+				        + "E.ACTION_PLAN_ID," + "'Event' AS ACTIVITY," + "E.TITLE_EN," + "E.YEAR_ID,"
+				        + "E.PLANNED_MONTH," + "E.CREATED_BY," + "E.CREATED_ON" + " FROM CSLCES_EVENT_DETAIL E"
+				        + " JOIN GBLSHS_STATUSES S" + " ON S.STATUS_ID = E.STATUS_ID " + "WHERE E.TITLE_EN LIKE'%"
+				        + TITLE_EN + "%'" + " AND " + "E.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND "
+				        + "E.PLANNED_MONTH LIKE'%" + PLANNED_MONTH + "%'" + " AND " + "E.EVENT_REF_NO LIKE'%"
+				        + EVENT_REF_NO + "%'" + " AND " + "E.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND "
+				        + "E.YEAR_ID LIKE'%" + YEAR_ID + "%'" + " AND " + "E.EVENT_OWNER_ID = 8" + " AND "
+				        + "S.STATUS_NAME = 'Approved' " + "ORDER BY CREATED_ON ASC,CREATED_BY DESC";
+			}
+		}
+
+		if (ROLE.equals("CS"))
+		{
+			if (SELECTION.equals("0"))
+			{
+				queryText = queryText + "SELECT S.STATUS_NAME," + "E.EVENT_DETAIL_ID," + "E.ACTION_PLAN_ID,"
+				        + "'Event' AS ACTIVITY," + "E.TITLE_EN," + "E.YEAR_ID," + "E.PLANNED_MONTH," + "E.CREATED_BY,"
+				        + "E.CREATED_ON" + " FROM CSLCES_EVENT_DETAIL E" + " JOIN GBLSHS_STATUSES S"
+				        + " ON S.STATUS_ID = E.STATUS_ID " + "WHERE E.TITLE_EN LIKE'%" + TITLE_EN + "%'" + " AND "
+				        + "E.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND " + "E.PLANNED_MONTH LIKE'%"
+				        + PLANNED_MONTH + "%'" + " AND " + "E.EVENT_REF_NO LIKE'%" + EVENT_REF_NO + "%'" + " AND "
+				        + "E.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND " + "E.YEAR_ID LIKE'%" + YEAR_ID + "%'"
+				        + " AND " + "E.EVENT_OWNER_ID = 9" + " AND " + "S.STATUS_NAME = 'Approved' "
+				        + "ORDER BY CREATED_ON ASC,CREATED_BY DESC";
+			}
+
+			else if (SELECTION.equals("1"))
+			{
+				queryText = queryText + "SELECT S.STATUS_NAME," + "P.PROGRAM_ID AS EVENT_DETAIL_ID,"
+				        + "P.ACTION_PLAN_ID," + "'Program' IS_ACTIVITY," + " P.PROGRAM_NAME AS NAME," + " P.YEAR_ID,"
+				        + "P.PLANNED_MONTH," + " P.CREATED_BY," + " P.CREATED_ON " + " FROM CSLCES_PROGRAM P "
+				        + "JOIN GBLSHS_STATUSES S " + "ON S.STATUS_ID = P.STATUS_ID " + "WHERE P.PROGRAM_NAME LIKE'%"
+				        + TITLE_EN + "%'" + " AND " + "P.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND "
+				        + "P.PLANNED_MONTH LIKE'%" + PLANNED_MONTH + "%'" + " AND " + "P.PROGRAM_REF_NO LIKE'%"
+				        + EVENT_REF_NO + "%'" + " AND " + "P.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND "
+				        + "P.YEAR_ID LIKE'%" + YEAR_ID + "%'" + " AND " + "P.PROGRAM_OWNER_ID = 9" + " AND "
+				        + "S.STATUS_NAME = 'Approved' " + "ORDER BY CREATED_ON ASC,CREATED_BY DESC";
+
+			} else if (SELECTION.equals("2"))
+			{
+
+				queryText = queryText + "SELECT S.STATUS_NAME," + "P.PROGRAM_ID AS EVENT_DETAIL_ID,"
+				        + "P.ACTION_PLAN_ID," + "'Program' IS_ACTIVITY," + " P.PROGRAM_NAME AS NAME," + " P.YEAR_ID,"
+				        + "P.PLANNED_MONTH," + " P.CREATED_BY," + " P.CREATED_ON " + " FROM CSLCES_PROGRAM P "
+				        + "JOIN GBLSHS_STATUSES S " + "ON S.STATUS_ID = P.STATUS_ID " + "WHERE P.PROGRAM_NAME LIKE'%"
+				        + TITLE_EN + "%'" + " AND " + "P.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND "
+				        + "P.PLANNED_MONTH LIKE'%" + PLANNED_MONTH + "%'" + " AND " + "P.PROGRAM_REF_NO LIKE'%"
+				        + EVENT_REF_NO + "%'" + " AND " + "P.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND "
+				        + "P.YEAR_ID LIKE'%" + YEAR_ID + "%'" + " AND " + "P.PROGRAM_OWNER_ID = 9" + " AND "
+				        + "S.STATUS_NAME = 'Approved' " + "UNION ALL " + "SELECT S.STATUS_NAME," + "E.EVENT_DETAIL_ID,"
+				        + "E.ACTION_PLAN_ID," + "'Event' AS ACTIVITY," + "E.TITLE_EN," + "E.YEAR_ID,"
+				        + "E.PLANNED_MONTH," + "E.CREATED_BY," + "E.CREATED_ON" + " FROM CSLCES_EVENT_DETAIL E"
+				        + " JOIN GBLSHS_STATUSES S" + " ON S.STATUS_ID = E.STATUS_ID " + "WHERE E.TITLE_EN LIKE'%"
+				        + TITLE_EN + "%'" + " AND " + "E.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND "
+				        + "E.PLANNED_MONTH LIKE'%" + PLANNED_MONTH + "%'" + " AND " + "E.EVENT_REF_NO LIKE'%"
+				        + EVENT_REF_NO + "%'" + " AND " + "E.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND "
+				        + "E.YEAR_ID LIKE'%" + YEAR_ID + "%'" + " AND " + "E.EVENT_OWNER_ID = 9" + " AND "
+				        + "S.STATUS_NAME = 'Approved' " + "ORDER BY CREATED_ON ASC,CREATED_BY DESC";
+			}
+		}
+
+		if (ROLE.equals("RSCS"))
+		{
+			if (SELECTION.equals("0"))
+			{
+				queryText = queryText + "SELECT S.STATUS_NAME," + "E.EVENT_DETAIL_ID," + "E.ACTION_PLAN_ID,"
+				        + "'Event' AS ACTIVITY," + "E.TITLE_EN," + "E.YEAR_ID," + "E.PLANNED_MONTH," + "E.CREATED_BY,"
+				        + "E.CREATED_ON" + " FROM CSLCES_EVENT_DETAIL E" + " JOIN GBLSHS_STATUSES S"
+				        + " ON S.STATUS_ID = E.STATUS_ID " + "WHERE E.TITLE_EN LIKE'%" + TITLE_EN + "%'" + " AND "
+				        + "E.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND " + "E.PLANNED_MONTH LIKE'%"
+				        + PLANNED_MONTH + "%'" + " AND " + "E.EVENT_REF_NO LIKE'%" + EVENT_REF_NO + "%'" + " AND "
+				        + "E.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND " + "E.YEAR_ID LIKE'%" + YEAR_ID + "%'"
+				        + " AND " + "S.STATUS_NAME = 'Approved' " + "ORDER BY CREATED_ON ASC,CREATED_BY DESC";
+			}
+
+			else if (SELECTION.equals("1"))
+			{
+				queryText = queryText + "SELECT S.STATUS_NAME," + "P.PROGRAM_ID AS EVENT_DETAIL_ID,"
+				        + "P.ACTION_PLAN_ID," + "'Program' IS_ACTIVITY," + " P.PROGRAM_NAME AS NAME," + " P.YEAR_ID,"
+				        + "P.PLANNED_MONTH," + " P.CREATED_BY," + " P.CREATED_ON " + " FROM CSLCES_PROGRAM P "
+				        + "JOIN GBLSHS_STATUSES S " + "ON S.STATUS_ID = P.STATUS_ID " + "WHERE P.PROGRAM_NAME LIKE'%"
+				        + TITLE_EN + "%'" + " AND " + "P.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND "
+				        + "P.PLANNED_MONTH LIKE'%" + PLANNED_MONTH + "%'" + " AND " + "P.PROGRAM_REF_NO LIKE'%"
+				        + EVENT_REF_NO + "%'" + " AND " + "P.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND "
+				        + "P.YEAR_ID LIKE'%" + YEAR_ID + "%'" + " AND " + "S.STATUS_NAME = 'Approved' "
+				        + "ORDER BY CREATED_ON ASC,CREATED_BY DESC";
+
+			} else if (SELECTION.equals("2"))
+			{
+
+				queryText = queryText + "SELECT S.STATUS_NAME," + "P.PROGRAM_ID AS EVENT_DETAIL_ID,"
+				        + "P.ACTION_PLAN_ID," + "'Program' IS_ACTIVITY," + " P.PROGRAM_NAME AS NAME," + " P.YEAR_ID,"
+				        + "P.PLANNED_MONTH," + " P.CREATED_BY," + " P.CREATED_ON " + " FROM CSLCES_PROGRAM P "
+				        + "JOIN GBLSHS_STATUSES S " + "ON S.STATUS_ID = P.STATUS_ID " + "WHERE P.PROGRAM_NAME LIKE'%"
+				        + TITLE_EN + "%'" + " AND " + "P.ACTION_PLAN_ID LIKE'%" + ACTION_PLAN_ID + "%'" + " AND "
+				        + "P.PLANNED_MONTH LIKE'%" + PLANNED_MONTH + "%'" + " AND " + "P.PROGRAM_REF_NO LIKE'%"
+				        + EVENT_REF_NO + "%'" + " AND " + "P.PACKAGE_ID LIKE'%" + PACKAGE_ID + "%'" + " AND "
+				        + "P.YEAR_ID LIKE'%" + YEAR_ID + "%'" + " AND " + "S.STATUS_NAME = 'Approved' " + "UNION ALL "
+				        + "SELECT S.STATUS_NAME," + "E.EVENT_DETAIL_ID," + "E.ACTION_PLAN_ID," + "'Event' AS ACTIVITY,"
+				        + "E.TITLE_EN," + "E.YEAR_ID," + "E.PLANNED_MONTH," + "E.CREATED_BY," + "E.CREATED_ON"
+				        + " FROM CSLCES_EVENT_DETAIL E" + " JOIN GBLSHS_STATUSES S" + " ON S.STATUS_ID = E.STATUS_ID "
+				        + "WHERE E.TITLE_EN LIKE'%" + TITLE_EN + "%'" + " AND " + "E.ACTION_PLAN_ID LIKE'%"
+				        + ACTION_PLAN_ID + "%'" + " AND " + "E.PLANNED_MONTH LIKE'%" + PLANNED_MONTH + "%'" + " AND "
+				        + "E.EVENT_REF_NO LIKE'%" + EVENT_REF_NO + "%'" + " AND " + "E.PACKAGE_ID LIKE'%" + PACKAGE_ID
+				        + "%'" + " AND " + "E.YEAR_ID LIKE'%" + YEAR_ID + "%'" + " AND " + "S.STATUS_NAME = 'Approved' "
+				        + "ORDER BY CREATED_ON ASC,CREATED_BY DESC";
+			}
+		}
+
+		QueryObject query = new QueryObject(queryText);
+		// logger.error(queryText);
+
+		query.addParameter("TITLE_EN", "CSLCES_EVENT_DETAIL.TITLE_EN", QueryObject.PARAM_STRING, new String(TITLE_EN));
+		query.addParameter("ACTION_PLAN_ID", "CSLCES_EVENT_DETAIL.ACTION_PLAN_ID", QueryObject.PARAM_STRING,
+		        new String(ACTION_PLAN_ID));
+		query.addParameter("PLANNED_MONTH", "CSLCES_EVENT_DETAIL.PLANNED_MONTH", QueryObject.PARAM_STRING,
+		        new String(PLANNED_MONTH));
+		query.addParameter("EVENT_REF_NO", "CSLCES_EVENT_DETAIL.EVENT_REF_NO", QueryObject.PARAM_STRING,
+		        new String(EVENT_REF_NO));
+		query.addParameter("PACKAGE_ID", "CSLCES_EVENT_DETAIL.PACKAGE_ID", QueryObject.PARAM_STRING,
+		        new String(PACKAGE_ID));
+		query.addParameter("YEAR_ID", "CSLCES_EVENT_DETAIL.YEAR_ID", QueryObject.PARAM_STRING, new String(YEAR_ID));
+
+		query.setResultClass(CSLCES_EVENT_DETAIL.class);
+		return query.getObjects();
+	}

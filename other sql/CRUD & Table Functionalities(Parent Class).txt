@@ -1,0 +1,111 @@
+------------show dialogue (in BPM & Application)----------------
+if (application.event.data){
+
+if(tryy.getValue() != ""){
+alert ("***BPM DATA***");
+cordys.setNodeText(CustomersModel.getMethodRequest(),".//*[local-name()='CustomerID']",tryy.getValue());
+CustomersModel.reset();
+}
+if(tryy.getValue() == ""){
+alert ("***APPLICATION DATA***");
+cordys.setNodeText(CustomersModel.getMethodRequest(),".//*[local-name()='CustomerID']",application.event.data.name,null);
+CustomersModel.reset();
+}
+
+------------show dialogue (Closing Method -Saving variables to return)----------------
+dataObj.test=input23.getValue();
+dataObj.user=input1.getValue();
+Workflow.completeTask(); //BPM workflow
+application.container.close();
+
+
+------------show dialogue return statement----------------
+function dialogReturnValue(){
+return dataObj;
+}
+
+------------show dialogue PARAMETER VALUE INITIALISE outside initformdone----------------
+var data = new Object();
+var dataObj = new Object();
+
+
+------------XML data for show Dialogue(Parent Form only)----------------
+<xml xmlns="http://schemas.cordys.com/1.0/xform">
+  <xml xmlns="" id="customer_details">
+    <Application xmlns="">
+      <id>customer_details</id>
+      <description>Customer Details</description>
+      <caption>Customer Details</caption>
+      <url>Forms/Order/Customer_Details.caf</url>
+      <frame features="dialogWidth:100%;dialogHeight:100%;">main</frame>
+    </Application>
+  </xml>
+</xml>
+
+
+------------CRUD FUNCTIONALITY IN FORM----------------
+
+ ---ADD--
+ function BtnAdd_Click(eventObject){
+ProductGroup.create();
+ProductGroup.enable();
+} 
+
+ ---EDIT--
+function btnEdit_Click(eventObject)
+{
+btnEdit.disable();
+ProductGroup.enable();
+}
+
+--DELETE--
+function btnDelete_Click(eventObject){
+//ProductsTable.remove(ProductsTable.getCheckedRows());
+var checkedRows=ProductsTable.getCheckedRows();
+    if(checkedRows.length!=0){
+    application.confirm("Do you want to delete the selected services(s) ?", false, closeHandlerDLT, false, "Confirm Message");
+                 }
+ else {
+ application.notify("Select atleast one service to delete");
+     }
+
+}
+
+function closeHandlerDLT (confirmReturnValue){
+alert (confirmReturnValue)
+ if (confirmReturnValue == 1){        ProductsTable.markToRemove(ProductsTable.getCheckedRows());        ProductsModel.synchronize();
+ProductsModel.reset(); 
+     }
+else if (confirmReturnValue == 0) { 
+     application.notify("You have cancelled the operation");
+}
+
+}
+
+
+------------FORM Table row check/click functions----------------
+(Double click only)
+var i=0;
+function ProductsTable_xformsonrowclick(eventObject)
+{
+if(i%2){
+var ProdId = ProductsTable.getIndex();
+data.productid=ProdId;
+application.showDialog(product_details.XMLDocument.documentElement,data,null,closeHandler,false);
+}
+i++;
+}
+
+
+function ProductsTable_OnRowChecked(eventObject)
+{
+var rw=ProductsTable.getCheckedRows();
+if(rw.length>1){
+application.notify("Please check only one at a time");
+}
+else{
+for(i=0; i<rw.length; i++){
+    clickId.setValue(rw[0].index);
+    }
+}
+}
